@@ -4,7 +4,7 @@ import { Loader2, Plus, Users, Copy, Check } from 'lucide-react';
 import axios from 'axios';
 import { useAuth } from './AuthProvider';
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://mealyby-ayush.vercel.app';
 const WEBSITE_LINK = 'your-website-link-here';
 
 const CopyButton = ({ code }) => {

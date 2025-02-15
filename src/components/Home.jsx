@@ -7,7 +7,7 @@ import { auth } from '../firebase-config';
 import { FoodStatusModal, UserRanking, AwayModeButton } from './FoodStatusModals';
 import FinishedFood from './FinishedFood';
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://mealyby-ayush.vercel.app';
 
 const InfoModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
