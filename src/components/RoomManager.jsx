@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useAuth } from './AuthProvider';
 
 const API_URL = 'https://mealyby-ayush.vercel.app';
-const WEBSITE_LINK = 'your-website-link-here';
+const WEBSITE_LINK = 'https://mealy-a7.vercel.app';
 
 const CopyButton = ({ code }) => {
   const [copied, setCopied] = useState(false);
