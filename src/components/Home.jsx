@@ -259,7 +259,7 @@ function Home() {
                 {Array.isArray(users) && users.map((flatmate) => (
                   <div
                     key={flatmate._id}
-                    className="flex flex-col p-4 bg-neutral-900/80 border-2  border-dashed border-gray-600/80 rounded-2xl space-y-2"
+                    className="flex flex-col p-4 bg-neutral-900/80 border-[1px] border-dashed border-gray-400/80 rounded-2xl space-y-2"
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-medium text-white">{flatmate.name}</span>
