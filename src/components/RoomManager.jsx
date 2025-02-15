@@ -87,7 +87,7 @@ const CreateRoom = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       setRoomCode(response.data.code);
-      setTimeout(() => navigate('/home'), 3000);
+      setTimeout(() => navigate('/home'), 9000);
     } catch (error) {
       setError(error.response?.data?.error || 'Failed to create room');
     } finally {
@@ -136,7 +136,7 @@ const CreateRoom = () => {
               <p className="text-2xl font-mono text-white">{roomCode}</p>
               <CopyButton code={roomCode} />
             </div>
-            <p className="text-center text-neutral-400">Redirecting to home...</p>
+            <p className="text-center text-neutral-400">Redirecting to home...(5 seconds)</p>
           </div>
         )}
       </div>
