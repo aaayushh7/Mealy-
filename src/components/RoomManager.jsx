@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Loader2, Plus, Users, Copy, Check } from 'lucide-react';
 import axios from 'axios';
@@ -31,40 +31,73 @@ const CopyButton = ({ code }) => {
 };
 
 const RoomManager = () => {
-  const navigate = useNavigate();
-
-  return (
-    <div className="min-h-screen bg-black text-neutral-100 flex flex-col items-center justify-center p-6">
-      <div className="w-full max-w-md space-y-12">
-        <h1 className="text-4xl font-bold text-center text-white tracking-tight">
-          Mealy A7
-        </h1>
-        
-        <div className="space-y-4">
-          <button
-            onClick={() => navigate('/create-room')}
-            className="w-full flex flex-col items-center justify-center gap-4 p-8 rounded-3xl border-2 border-dashed border-neutral-800 hover:border-neutral-700 transition-all group bg-neutral-900/50 hover:bg-neutral-800/50 backdrop-blur-xl shadow-lg"
-          >
-            <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center group-hover:ring-4 ring-neutral-700/50 transition-all">
-              <Plus className="w-8 h-8 text-white" />
-            </div>
-            <span className="text-lg font-medium text-white">Create Room</span>
-          </button>
+    const { user } = useAuth();
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
+   
+    useEffect(() => {
+      const checkRoom = async () => {
+        try {
+          const token = await user.getIdToken();
+          const response = await axios.get(`${API_URL}/api/rooms/user/${user.uid}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
           
-          <button
-            onClick={() => navigate('/join-room')}
-            className="w-full flex flex-col items-center justify-center gap-4 p-8 rounded-3xl border-2 border-dashed border-neutral-800 hover:border-neutral-700 transition-all group bg-neutral-900/50 hover:bg-neutral-800/50 backdrop-blur-xl shadow-lg"
-          >
-            <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center group-hover:ring-4 ring-neutral-700/50 transition-all">
-              <Users className="w-8 h-8 text-white" />
-            </div>
-            <span className="text-lg font-medium text-white">Join Room</span>
-          </button>
+          if (response.data.room) {
+            navigate('/home');
+          }
+          setLoading(false);
+        } catch (error) {
+          console.error('Error checking room:', error);
+          setLoading(false);
+        }
+      };
+   
+      if (user) {
+        checkRoom();
+      }
+    }, [user, navigate]);
+   
+    if (loading) {
+      return (
+        <div className="min-h-screen bg-black flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-neutral-400" />
+        </div>
+      );
+    }
+   
+    return (
+      <div className="min-h-screen bg-black text-neutral-100 flex flex-col items-center justify-center p-6">
+        <div className="w-full max-w-md space-y-12">
+          <h1 className="text-4xl font-bold text-center text-white tracking-tight">
+            Mealy A7
+          </h1>
+          
+          <div className="space-y-4">
+            <button
+              onClick={() => navigate('/create-room')}
+              className="w-full flex flex-col items-center justify-center gap-4 p-8 rounded-3xl border-2 border-dashed border-neutral-800 hover:border-neutral-700 transition-all group bg-neutral-900/50 hover:bg-neutral-800/50 backdrop-blur-xl shadow-lg"
+            >
+              <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center group-hover:ring-4 ring-neutral-700/50 transition-all">
+                <Plus className="w-8 h-8 text-white" />
+              </div>
+              <span className="text-lg font-medium text-white">Create Room</span>
+            </button>
+            
+            <button
+              onClick={() => navigate('/join-room')}
+              className="w-full flex flex-col items-center justify-center gap-4 p-8 rounded-3xl border-2 border-dashed border-neutral-800 hover:border-neutral-700 transition-all group bg-neutral-900/50 hover:bg-neutral-800/50 backdrop-blur-xl shadow-lg"
+            >
+              <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center group-hover:ring-4 ring-neutral-700/50 transition-all">
+                <Users className="w-8 h-8 text-white" />
+              </div>
+              <span className="text-lg font-medium text-white">Join Room</span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+   };
 
 const CreateRoom = () => {
   const [roomName, setRoomName] = useState('');

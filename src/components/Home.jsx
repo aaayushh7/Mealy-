@@ -59,6 +59,7 @@ function Home() {
   const [currentMealPeriod, setCurrentMealPeriod] = useState(() => localStorage.getItem('currentMealPeriod') || 'none');
   const [isFoodFinished, setIsFoodFinished] = useState(() => localStorage.getItem('isFoodFinished') === 'true');
   
+  
   const currentUser = users.find(u => u.firebaseUid === user?.uid);
   const isAway = currentUser?.isAway || false;
 
@@ -93,33 +94,35 @@ function Home() {
 
   useEffect(() => {
     if (!user) return;
-
+  
     const updateMealStatus = async () => {
       const now = new Date();
       const hours = now.getHours();
-      const lunchStart = parseInt(schedule.lunchTime.split(':')[0]);
-      const dinnerStart = parseInt(schedule.dinnerTime.split(':')[0]);
+      const lunchStart = 7;  // 7 AM
+      const dinnerStart = 17; // 5 PM
       
       let newMealPeriod = hours >= lunchStart && hours < dinnerStart ? 'lunch' : 'dinner';
-
+  
       if (currentMealPeriod !== newMealPeriod) {
         try {
           const token = await user.getIdToken();
           await axios.post(`${API_URL}/api/users/reset-eaten`,
             { 
-              previousMealPeriod: currentMealPeriod, 
-              newMealPeriod,
-              incrementMissed: !isFoodFinished
+              previousMealPeriod: currentMealPeriod,
+              isFoodFinished,
+              newMealPeriod
             },
-            { headers: { Authorization: `Bearer ${token}`, 'Cache-Control': 'no-cache' } }
+            { headers: { Authorization: `Bearer ${token}` } }
           );
-
-          const response = await axios.get(`${API_URL}/api/users`, {
-            headers: { Authorization: `Bearer ${token}`, 'Cache-Control': 'no-cache' }
-          });
-
+  
+          // Reset food finished state for new period
           setIsFoodFinished(false);
           localStorage.removeItem('isFoodFinished');
+          
+          // Update users and meal period
+          const response = await axios.get(`${API_URL}/api/users`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
           setUsers(response.data);
           setCurrentMealPeriod(newMealPeriod);
           localStorage.setItem('currentMealPeriod', newMealPeriod);
@@ -129,7 +132,7 @@ function Home() {
       }
       setCurrentMeal(newMealPeriod === 'lunch' ? 'Lunch is ready' : 'Dinner is ready');
     };
-
+  
     updateMealStatus();
     const interval = setInterval(updateMealStatus, 60000);
     return () => clearInterval(interval);

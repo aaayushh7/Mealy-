@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const FinishedFood = ({ users, onUndo }) => {
   const navigate = useNavigate();
   const [showUndoMessage, setShowUndoMessage] = useState(false);
+  const [isUndoLoading, setIsUndoLoading] = useState(false);
   const remainingUsers = users.filter(user => !user.hasEaten && !user.isAway);
   const usersWhoAte = users.filter(user => user.hasEaten);
 
@@ -13,19 +14,25 @@ const FinishedFood = ({ users, onUndo }) => {
     setTimeout(() => setShowUndoMessage(false), 2000);
   };
 
+  const handleUndo = async () => {
+    if (isUndoLoading) return;
+    setIsUndoLoading(true);
+    await onUndo();
+    setIsUndoLoading(false);
+  };
+
   return (
     <div className="min-h-screen bg-black text-white p-6">
       <div className="max-w-lg mx-auto space-y-6">
         <nav className="flex items-center justify-between">
-          
-
           <div className="relative">
             <button
-              onClick={onUndo}
+              onClick={handleUndo}
               onMouseEnter={handleUndoHover}
-              className="w-12 h-12 rounded-full bg-neutral-800/80 hover:bg-neutral-700/80 transition-all backdrop-blur-xl flex items-center justify-center group"
+              disabled={isUndoLoading}
+              className="w-12 h-12 rounded-full bg-neutral-800/80 hover:bg-neutral-700/80 transition-all backdrop-blur-xl flex items-center justify-center group disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <RotateCcw className="w-5 h-5 text-yellow-400 group-hover:rotate-180 transition-transform duration-300" />
+              <RotateCcw className={`w-5 h-5 text-yellow-400 group-hover:rotate-180 transition-transform duration-300 ${isUndoLoading ? 'animate-spin' : ''}`} />
             </button>
             
             {showUndoMessage && (
