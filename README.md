@@ -1,8 +1,45 @@
-# React + Vite
+# Mealy A7: Smart Meal Tracking for Shared Living
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application for tracking shared meals in communal living spaces. Built with React and Firebase, featuring real-time updates and push notifications.
 
-Currently, two official plugins are available:
+## Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Real-time meal status tracking
+- Away mode for temporary absence
+- Push notifications for meal updates
+- Shared room management
+- Missed meal statistics
+- Dark mode iOS-inspired UI
+
+## Tech Stack
+
+- React
+- Firebase (Authentication, Realtime Database)
+- Tailwind CSS
+- Node.js/Express backend
+- Push notifications via Firebase Cloud Messaging
+
+## Installation
+
+```bash
+git clone https://github.com/yourusername/mealy-a7
+cd mealy-a7
+npm install
+npm start
+```
+
+## Environment Variables
+
+```
+REACT_APP_FIREBASE_CONFIG=your_config
+REACT_APP_API_URL=your_api_url
+```
+
+## Contributing
+
+Pull requests welcome. For major changes, open an issue first.
+
+## License
+
+MIT
+
