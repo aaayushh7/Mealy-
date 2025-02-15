@@ -17,13 +17,7 @@ const FinishedFood = ({ users, onUndo }) => {
     <div className="min-h-screen bg-black text-white p-6">
       <div className="max-w-lg mx-auto space-y-6">
         <nav className="flex items-center justify-between">
-          <button
-            onClick={() => navigate('/rooms')}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-800/80 hover:bg-neutral-700/80 transition-all backdrop-blur-xl"
-          >
-            <ChevronLeft className="w-5 h-5" />
-            <span className="text-base font-medium">Rooms</span>
-          </button>
+          
 
           <div className="relative">
             <button
