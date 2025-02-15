@@ -29,7 +29,7 @@ const FinishedFood = ({ users, onUndo }) => {
             </button>
             
             {showUndoMessage && (
-              <div className="absolute right-0 top-14 w-48 p-2 bg-neutral-800/90 backdrop-blur-xl rounded-lg text-sm text-center animate-fade-in z-10">
+              <div className="absolute right-25 top-14 w-48 p-2 bg-neutral-800/90 backdrop-blur-xl rounded-lg text-sm text-center animate-fade-in z-10">
                 Was it a mistake? Reset status
               </div>
             )}
